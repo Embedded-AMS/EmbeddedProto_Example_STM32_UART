@@ -1,3 +1,7 @@
 # Ignore the generated source code.
 nucleo-f446re/generated
 desktop/generated
+
+# Ignore build results
+nucleo-f446re/Debug
+nucleo-f446re/Release
