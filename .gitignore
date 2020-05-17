@@ -1,0 +1,3 @@
+# Ignore the generated source code.
+nucleo-f446re/generated
+desktop/generated

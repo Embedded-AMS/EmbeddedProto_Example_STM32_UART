@@ -1,0 +1,58 @@
+/*
+ *  Copyright (C) 2020 Embedded AMS B.V. - All Rights Reserved
+ *
+ *  This file is part of Embedded Proto.
+ *
+ *  Embedded Proto is open source software: you can redistribute it and/or 
+ *  modify it under the terms of the GNU General Public License as published 
+ *  by the Free Software Foundation, version 3 of the license.
+ *
+ *  Embedded Proto  is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Embedded Proto. If not, see <https://www.gnu.org/licenses/>.
+ *
+ *  For commercial and closed source application please visit:
+ *  <https://EmbeddedProto.com/license/>.
+ *
+ *  Embedded AMS B.V.
+ *  Info:
+ *    info at EmbeddedProto dot com
+ *
+ *  Postal address:
+ *    Johan Huizingalaan 763a
+ *    1066 VH, Amsterdam
+ *    the Netherlands
+ */
+
+// This file listes the protobuffer messages used in the example to make a simple uart communcation protocol.
+// Commands are send from the desktop to the microctontroller which in turn sends a reply.
+
+syntax = "proto3";
+
+message Command 
+{
+  enum Buttons
+  {
+    Stop  = 0;
+    Up    = 1;
+    Down  = 2;
+    Left  = 3;
+    Right = 4;
+    Grab  = 5;
+  }
+  
+  Buttons button = 1;
+  int32 value   = 2;  
+}
+
+message Reply
+{
+  int32 x_pos = 1;
+  int32 y_pos = 2; 
+  bool price  = 3;
+}
+
