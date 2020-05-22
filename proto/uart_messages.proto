@@ -40,13 +40,13 @@ message Command
     Stop  = 0;
     Up    = 1;
     Down  = 2;
-    Left  = 3;
     Right = 4;
+    Left  = 3;
     Grab  = 5;
   }
   
   Buttons button = 1;
-  int32 value   = 2;  
+  uint32 value   = 2;  
 }
 
 message Reply

@@ -24,6 +24,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "uart_messages.h"
+#include "UartReadBuffer.h"
+#include "UartWriteBuffer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +46,11 @@
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+UartReadBuffer read_buffer;
+UartWriteBuffer write_buffer;
+HAL_StatusTypeDef receive_status;
+Command received_command;
+Reply outgoing_reply;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -52,6 +58,8 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
+
+void process_command(const Command& command, Reply& reply);
 
 /* USER CODE END PFP */
 
@@ -98,6 +106,30 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+    // Read the first byte from uart. The first byte indicates how many bytes will follow.
+    uint8_t n_bytes = 0;
+    receive_status = HAL_UART_Receive(&huart2, &n_bytes, 1, 100);
+    if(HAL_OK == receive_status)
+    {
+      // Read the actual data to be deserialized.
+      receive_status = HAL_UART_Receive(&huart2, read_buffer.get_data_array(), n_bytes, 100);
+      if(HAL_OK == receive_status)
+      {
+        // Deserialize the data received.
+        bool deserialize_status = received_command.deserialize(read_buffer);
+        if(deserialize_status) {
+          // Process the command.
+          process_command(received_command, outgoing_reply);
+          // Serialize the data.
+          bool serialization_status = outgoing_reply.serialize(write_buffer);
+          if(serialization_status)
+          {
+            HAL_UART_Transmit(&huart2, write_buffer.get_data(), write_buffer.get_size(), 50);
+          }
+        }
+      }
+    }
 
     /* USER CODE BEGIN 3 */
   }
@@ -215,6 +247,67 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+//! The functions takes a command and responds to it.
+/*!
+ * \param[in] command The received command.
+ * \param[out] reply The reply to be send over uart.
+ */
+void process_command(const Command& command, Reply& reply)
+{
+  switch(command.get_button())
+  {
+    case Command::Buttons::Stop:
+      // After we are done clear the current state.
+      reply.clear();
+      break;
+
+    // With the following commands move the grappling hook.
+
+    case Command::Buttons::Up:
+    {
+      auto new_y = reply.y_pos() + command.value();
+      reply.set_y_pos(new_y);
+      break;
+    }
+
+    case Command::Buttons::Down:
+    {
+      auto new_y = reply.y_pos() - command.value();
+      reply.set_y_pos(new_y);
+      break;
+    }
+
+    case Command::Buttons::Right:
+    {
+      auto new_x = reply.x_pos() + command.value();
+      reply.set_x_pos(new_x);
+      break;
+    }
+
+    case Command::Buttons::Left:
+    {
+      auto new_x = reply.x_pos() - command.value();
+      reply.set_x_pos(new_x);
+      break;
+    }
+
+    // Try to see if we have a winner.
+    case Command::Buttons::Grab:
+    {
+      // You win on every even position
+      auto remainder = (reply.x_pos() + reply.y_pos()) % 2;
+      reply.set_price(0 == remainder);
+      break;
+    }
+
+    default:
+      // By default send back the current state.
+      break;
+  }
+
+}
+
 
 /* USER CODE END 4 */
 
