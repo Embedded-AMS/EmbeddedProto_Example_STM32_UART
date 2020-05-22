@@ -68,7 +68,10 @@ class UartReadBuffer : public ::EmbeddedProto::ReadBufferInterface
     uint32_t& get_bytes_written();
 
     //! Clear all indices, in effect allowing the data to be overwritten.
-    void reset();
+    void clear();
+
+    //! Push new data into the buffer.
+    bool push(uint8_t& byte);
 
   private:
 

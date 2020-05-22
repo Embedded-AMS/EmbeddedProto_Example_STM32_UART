@@ -40,7 +40,7 @@ class UartWriteBuffer : public ::EmbeddedProto::WriteBufferInterface
     static constexpr uint32_t MAX_SIZE = 50;
 
   public:
-    UartWriteBuffer();
+    UartWriteBuffer() = default;
     ~UartWriteBuffer() override = default;
 
     //! \see ::EmbeddedProto::WriteBufferInterface::clear()
@@ -62,7 +62,7 @@ class UartWriteBuffer : public ::EmbeddedProto::WriteBufferInterface
     virtual bool push(const uint8_t* bytes, const uint32_t length) override;
 
     //! Return a pointer to the data array.
-    uint8_t* get_data() const;
+    uint8_t* get_data();
 
   private:
 

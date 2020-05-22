@@ -74,7 +74,7 @@ bool UartWriteBuffer::push(const uint8_t* bytes, const uint32_t length)
   return return_value;
 }
 
-uint8_t* UartWriteBuffer::get_data() const
+uint8_t* UartWriteBuffer::get_data()
 {
   return data_;
 }

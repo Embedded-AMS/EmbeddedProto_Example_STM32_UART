@@ -5,3 +5,9 @@ desktop/generated
 # Ignore build results
 nucleo-f446re/Debug
 nucleo-f446re/Release
+
+# Ignore the python virtualenv folder
+desktop/venv
+
+# Ignore the pycharm project folder.
+desktop/.idea

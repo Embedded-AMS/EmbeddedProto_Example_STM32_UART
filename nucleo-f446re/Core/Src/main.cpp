@@ -113,7 +113,13 @@ int main(void)
     if(HAL_OK == receive_status)
     {
       // Read the actual data to be deserialized.
-      receive_status = HAL_UART_Receive(&huart2, read_buffer.get_data_array(), n_bytes, 100);
+      uint8_t byte;
+      for(uint8_t i = 0; (i < n_bytes) && (HAL_OK == receive_status); ++i)
+      {
+        receive_status = HAL_UART_Receive(&huart2, &byte, 1, 100);
+        read_buffer.push(byte);
+      }
+
       if(HAL_OK == receive_status)
       {
         // Deserialize the data received.
@@ -125,9 +131,17 @@ int main(void)
           bool serialization_status = outgoing_reply.serialize(write_buffer);
           if(serialization_status)
           {
+            // first transmit the number of bytes in the message.
+            n_bytes = write_buffer.get_size();
+            HAL_UART_Transmit(&huart2, &n_bytes, 1, 50);
+            // Now transmit the actual data.
             HAL_UART_Transmit(&huart2, write_buffer.get_data(), write_buffer.get_size(), 50);
           }
         }
+        // Clear the buffers after we are done.
+        read_buffer.clear();
+        write_buffer.clear();
+
       }
     }
 

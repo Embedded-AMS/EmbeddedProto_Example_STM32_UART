@@ -37,12 +37,13 @@ message Command
 {
   enum Buttons
   {
-    Stop  = 0;
+    DoNothing = 0;
     Up    = 1;
     Down  = 2;
     Right = 4;
     Left  = 3;
     Grab  = 5;
+    Stop  = 6;
   }
   
   Buttons button = 1;
