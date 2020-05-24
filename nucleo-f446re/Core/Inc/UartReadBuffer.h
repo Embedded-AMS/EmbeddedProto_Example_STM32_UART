@@ -50,7 +50,7 @@ class UartReadBuffer : public ::EmbeddedProto::ReadBufferInterface
     uint32_t get_max_size() const override;
 
     /** \see ::EmbeddedProto::ReadBufferInterface::peak() */
-    bool peak(uint8_t& byte) const override;
+    bool peek(uint8_t& byte) const override;
 
     /** \see ::EmbeddedProto::ReadBufferInterface::advance() */
     void advance() override;

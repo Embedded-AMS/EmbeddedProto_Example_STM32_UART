@@ -26,6 +26,7 @@
 #include "uart_messages.h"
 #include "UartReadBuffer.h"
 #include "UartWriteBuffer.h"
+#include <Errors.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -123,13 +124,13 @@ int main(void)
       if(HAL_OK == receive_status)
       {
         // Deserialize the data received.
-        bool deserialize_status = received_command.deserialize(read_buffer);
-        if(deserialize_status) {
+        auto deserialize_status = received_command.deserialize(read_buffer);
+        if(::EmbeddedProto::Error::NO_ERRORS == deserialize_status) {
           // Process the command.
           process_command(received_command, outgoing_reply);
           // Serialize the data.
-          bool serialization_status = outgoing_reply.serialize(write_buffer);
-          if(serialization_status)
+          auto serialization_status = outgoing_reply.serialize(write_buffer);
+          if(::EmbeddedProto::Error::NO_ERRORS == serialization_status)
           {
             // first transmit the number of bytes in the message.
             n_bytes = write_buffer.get_size();

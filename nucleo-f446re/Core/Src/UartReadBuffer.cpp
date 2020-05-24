@@ -48,7 +48,7 @@ uint32_t UartReadBuffer::get_max_size() const
   return MAX_SIZE;
 }
 
-bool UartReadBuffer::peak(uint8_t& byte) const
+bool UartReadBuffer::peek(uint8_t& byte) const
 {
   bool return_value = write_index_ > read_index_;
   if(return_value)
