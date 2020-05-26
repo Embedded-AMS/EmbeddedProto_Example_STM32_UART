@@ -12,9 +12,10 @@ This repository hosts example code for Embedded Proto, the embedded implementati
 ![alt text](https://embeddedproto.com/wp-content/uploads/2020/05/PC_to_MCU_over_UART.png "PC to MCU over UART")
 
 This example mimics a fun fair game. Move the grabling hook around and see if you can catch the price!
+
 ![alt text](https://embeddedproto.com/wp-content/uploads/2020/05/fun_fair_game__pxfuel.jpg "Fun Fair Game")
 
-This example makes use of a NUCLEO-F446RE board made by ST Microelectronics. To build the source code and program the hardware STM32CubeIDE has been used. 
+This example makes use of a NUCLEO-F446RE board made by ST Microelectronics. This board holds an ARM Cortex-M4. To build the source code and program the hardware STM32CubeIDE has been used. 
 
 The desktop program is a simple terminal python script. You can use the keys as stated when you start the application to move around and grab your price.
 
