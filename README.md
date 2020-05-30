@@ -5,13 +5,16 @@
 Copyrights 2020 Embedded AMS B.V. Amsterdam, [www.EmbeddedAMS.nl](https://www.EmbeddedAMS.nl), [info@EmbeddedAMS.nl](mailto:info@EmbeddedAMS.nl)
 
 
+Looking for a more elaborate description of this example? Please visit: https://embeddedproto.com/a-simple-uart-example-with-embedded-proto/
+
+
 # Introduction
 
-This repository hosts example code for Embedded Proto, the embedded implementation of Google Protocol Buffers. It is a simple example showing how a micro controller and desktop pc can communicate over UART. Command messages are send from a desktop script over an UART comport to the mcu. 
+This repository hosts example code for Embedded Proto, the embedded implementation of Google Protocol Buffers. It is a simple example showing how a micro controller and desktop pc can communicate over UART. Command messages are send from a desktop script over an UART comport to the MCU. 
 
 ![alt text](https://embeddedproto.com/wp-content/uploads/2020/05/PC_to_MCU_over_UART.png "PC to MCU over UART")
 
-This example mimics a fun fair game. Move the grabling hook around and see if you can catch the price!
+This example mimics a fun fair game. Move the claw around and see if you can catch the price!
 
 ![alt text](https://embeddedproto.com/wp-content/uploads/2020/05/fun_fair_game__pxfuel.jpg "Fun Fair Game")
 
@@ -32,7 +35,7 @@ The setup script already does it for you but you can regenerate the source code 
 
 # Running the code
 
-Connect the NUCLEO via the usb programmer and use STM32CubeIDE to build and program the microcontroller on it. Next find out which comport has been allocated for the NUCLEO. In the example code below it was ttyACM0. Next go to the desktop folder, activate the virtual environment and run the script. 
+Connect the NUCLEO via the usb programmer and use STM32CubeIDE to build and program the micro controller on it. Next find out which comport has been allocated for the NUCLEO. In the example code below it was ttyACM0. Next go to the desktop folder, activate the virtual environment and run the script. 
 
 ```bash
 cd desktop
