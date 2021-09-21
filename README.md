@@ -28,9 +28,9 @@ The desktop program is a simple terminal python script. You can use the keys as 
 1. Install STM32CubeIDE if you have not already.
 2. Install the dependencies required by Embedded Proto. They are listed [here](https://github.com/Embedded-AMS/EmbeddedProto).
 3. Checkout this example repository including the submodule of Embedded Proto: `git clone --recursive https://github.com/Embedded-AMS/EmbeddedProto_Example_STM32_UART.git`.
-4. Setup the environment required for Embedded Proto and the desktop script by running the setup script: `./setup.sh`.
+4. Setup the environment required for Embedded Proto and the desktop script by running the setup script: `./setup.sh` on Linux or `setup.bat` on Windows.
 
-The setup script already does it for you but you can regenerate the source code using the `./generate_source_files.sh` script. This is required when you have changed the \*.proto file.
+The setup script already does it for you but you can regenerate the source code using the `./generate_source_files.sh` or `generate_source_files.bat` script. This is required when you have changed the \*.proto file.
 
 
 # Running the code
