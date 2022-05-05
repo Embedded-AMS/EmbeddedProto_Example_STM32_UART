@@ -53,10 +53,10 @@ class UartReadBuffer : public ::EmbeddedProto::ReadBufferInterface
     bool peek(uint8_t& byte) const override;
 
     /** \see ::EmbeddedProto::ReadBufferInterface::advance() */
-    void advance() override;
+    bool advance() override;
 
     /** \see ::EmbeddedProto::ReadBufferInterface::advance(const uint32_t N) */
-    void advance(const uint32_t N) override;
+    bool advance(const uint32_t N) override;
 
     /** \see ::EmbeddedProto::ReadBufferInterface::pop() */
     bool pop(uint8_t& byte) override;
