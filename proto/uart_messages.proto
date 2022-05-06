@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Embedded AMS B.V. - All Rights Reserved
+ *  Copyright (C) 2020-2022 Embedded AMS B.V. - All Rights Reserved
  *
  *  This file is part of Embedded Proto.
  *
@@ -52,8 +52,10 @@ message Command
 
 message Reply
 {
-  int32 x_pos = 1;
-  int32 y_pos = 2; 
+  // Mark the x and y coordinates as optional to also send and display the zero position.
+  optional int32 x_pos = 1;
+  optional int32 y_pos = 2; 
+  
   bool price  = 3;
 }
 
