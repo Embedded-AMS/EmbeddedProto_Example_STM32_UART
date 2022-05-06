@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Embedded AMS B.V. - All Rights Reserved
+ *  Copyright (C) 2020-2022 Embedded AMS B.V. - All Rights Reserved
  *
  *  This file is part of Embedded Proto.
  *
@@ -50,7 +50,7 @@ uint32_t UartReadBuffer::get_max_size() const
 
 bool UartReadBuffer::peek(uint8_t& byte) const
 {
-  bool return_value = write_index_ > read_index_;
+  const bool return_value = write_index_ > read_index_;
   if(return_value)
   {
     byte = data_[read_index_];
@@ -58,19 +58,30 @@ bool UartReadBuffer::peek(uint8_t& byte) const
   return return_value;
 }
 
-void UartReadBuffer::advance()
+bool UartReadBuffer::advance()
 {
-  ++read_index_;
+  const bool return_value = write_index_ > read_index_;
+  if(return_value)
+  {
+    ++read_index_;
+  }
+  return return_value;
 }
 
-void UartReadBuffer::advance(const uint32_t N)
+bool UartReadBuffer::advance(const uint32_t N)
 {
-  read_index_ += N;
+  const uint32_t new_read_index = read_index_ + N;
+  const bool return_value = write_index_ > new_read_index;
+  if(return_value)
+  {
+    read_index_ = new_read_index;
+  }
+  return return_value;
 }
 
 bool UartReadBuffer::pop(uint8_t& byte)
 {
-  bool return_value = write_index_ > read_index_;
+  const bool return_value = write_index_ > read_index_;
   if(return_value) {
     byte = data_[read_index_];
     ++read_index_;
@@ -96,7 +107,7 @@ void UartReadBuffer::clear()
 
 bool UartReadBuffer::push(uint8_t& byte)
 {
-  bool return_value = MAX_SIZE > write_index_;
+  const bool return_value = MAX_SIZE > write_index_;
   if(return_value)
   {
     data_[write_index_] = byte;
