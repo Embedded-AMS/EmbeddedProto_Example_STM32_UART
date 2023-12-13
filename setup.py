@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020-2022 Embedded AMS B.V. - All Rights Reserved
+# Copyright (C) 2020-2024 Embedded AMS B.V. - All Rights Reserved
 #
 # This file is part of Embedded Proto.
 #
@@ -23,8 +23,8 @@
 #   info at EmbeddedProto dot com
 #
 # Postal address:
-#   Johan Huizingalaan 763a
-#   1066 VH, Amsterdam
+#   Atoomweg 2
+#   1627 LE, Hoorn
 #   the Netherlands
 #
 
@@ -34,6 +34,7 @@ import os
 import venv
 import platform
 from sys import stderr
+import shutil
 
 # Perform a system call to beable to display colors on windows
 os.system("")
@@ -114,8 +115,8 @@ def generate_source_code():
     try:
         os.chdir("EmbeddedProto")
         
-        command = ["protoc", "-I../Proto", "--eams_out=../nucleo-f446re/generated", 
-                   "../Proto/uart_messages.proto"]
+        command = ["protoc", "-I../proto", "--eams_out=../nucleo-f446re/generated", 
+                   "../proto/uart_messages.proto"]
         if "Windows" == platform.system():
             command.append("--plugin=protoc-gen-eams=protoc-gen-eams.bat")
         else:
@@ -169,6 +170,27 @@ if __name__ == "__main__":
     if not os.path.exists(newpath):
         os.makedirs(newpath)
      
+
+    # ---------------------------------------
+    # Clean excisting venv and other generated files.
+    if args.clean:
+        shutil.rmtree("./desktop/venv", ignore_errors=True)     
+     
+        try:
+            os.remove("./desktop/generated/uart_messages_pb2.py")
+        except FileNotFoundError:
+            # This exception we can safely ignore as it means the file was not there. In that case we do not have to remove
+            # it.
+            pass
+
+        try:
+            os.remove("./nucleo-f446re/generated/uart_messages.h")
+        except FileNotFoundError:
+            # This exception we can safely ignore as it means the file was not there. In that case we do not have to remove
+            # it.
+            pass
+    
+    
     # ---------------------------------------
     if not args.generate:
         os.chdir("./EmbeddedProto")
