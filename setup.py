@@ -115,8 +115,8 @@ def generate_source_code():
     try:
         os.chdir("EmbeddedProto")
         
-        command = ["protoc", "-I../Proto", "--eams_out=../nucleo-f446re/generated", 
-                   "../Proto/uart_messages.proto"]
+        command = ["protoc", "-I../proto", "--eams_out=../nucleo-f446re/generated", 
+                   "../proto/uart_messages.proto"]
         if "Windows" == platform.system():
             command.append("--plugin=protoc-gen-eams=protoc-gen-eams.bat")
         else:
