@@ -24,7 +24,7 @@
 #include "uart_messages.h"
 #include "UartReadBuffer.h"
 #include "UartWriteBuffer.h"
-#include <Errors.h>
+#include <EmbeddedProto/Errors.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

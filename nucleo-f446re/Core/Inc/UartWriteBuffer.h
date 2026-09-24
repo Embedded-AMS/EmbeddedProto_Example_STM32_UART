@@ -32,7 +32,7 @@
 #define INC_UARTWRITEBUFFER_H_
 
 #include <cstdint>
-#include <WriteBufferInterface.h>
+#include <EmbeddedProto/WriteBufferInterface.h>
 
 class UartWriteBuffer : public ::EmbeddedProto::WriteBufferInterface
 {
@@ -41,7 +41,7 @@ class UartWriteBuffer : public ::EmbeddedProto::WriteBufferInterface
 
   public:
     UartWriteBuffer() = default;
-    ~UartWriteBuffer() override = default;
+    ~UartWriteBuffer() = default;
 
     //! \see ::EmbeddedProto::WriteBufferInterface::clear()
     virtual void clear() override;
@@ -58,8 +58,8 @@ class UartWriteBuffer : public ::EmbeddedProto::WriteBufferInterface
     //! \see ::EmbeddedProto::WriteBufferInterface::push()
     virtual bool push(const uint8_t byte) override;
 
-    //! \see ::EmbeddedProto::WriteBufferInterface::push()
-    virtual bool push(const uint8_t* bytes, const uint32_t length) override;
+    //! \see ::EmbeddedProto::WriteBufferInterface::push(const const_bytes_view&)
+    virtual bool push(const ::EmbeddedProto::const_bytes_view& bytes) override;
 
     //! Return a pointer to the data array.
     uint8_t* get_data();
