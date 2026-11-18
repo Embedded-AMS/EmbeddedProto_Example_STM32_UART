@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020-2024 Embedded AMS B.V. - All Rights Reserved
+# Copyright (C) 2020-2026 Embedded AMS B.V. - All Rights Reserved
 #
 # This file is part of Embedded Proto.
 #
@@ -44,7 +44,7 @@ CRED = '\33[91m'
 CYELLOW = '\33[93m'
 CEND = '\33[0m'
 
-print("Update the submodule Embedded Proto before importing its setup script.", end='')
+print("Update the submodule Embedded Proto before importing its install script.", end='')
 try:
     result = subprocess.run(["git", "submodule", "init"], check=False, capture_output=True)
     if result.returncode:
@@ -69,7 +69,7 @@ except Exception as e:
     print("Error: " + str(e), file=stderr)
     exit(1)
         
-from EmbeddedProto import setup as EPSetup
+from EmbeddedProto import install as EPInstall
 
 
 ####################################################################################
@@ -111,27 +111,20 @@ def setup_desktop_script():
 
 def generate_source_code():
 
+    # The embeddedproto command lives in the virtual environment of the submodule. It runs the protobuf compiler
+    # which came with the package, so it generates the Python code for the desktop script as well.
+
     print("Generate the source file based on uart_messages.proto.", end='')
     try:
-        os.chdir("EmbeddedProto")
-        
-        command = ["protoc", "-I../proto", "--eams_out=../nucleo-f446re/generated", 
-                   "../proto/uart_messages.proto"]
         if "Windows" == platform.system():
-            command.append("--plugin=protoc-gen-eams=protoc-gen-eams.bat")
+            embeddedproto = os.path.join("EmbeddedProto", "venv", "Scripts", "embeddedproto.exe")
         else:
-            command.append("--plugin=protoc-gen-eams=protoc-gen-eams")
-            
+            embeddedproto = os.path.join("EmbeddedProto", "venv", "bin", "embeddedproto")
+
+        command = [embeddedproto, "-I./proto", "--eams_out=./nucleo-f446re/generated",
+                   "--python_out=./desktop/generated", "./proto/uart_messages.proto"]
+
         result = subprocess.run(command, check=False, capture_output=True)
-        if result.returncode:
-            print(" [" + CRED + "Fail" + CEND + "]")
-            print(result.stderr.decode("utf-8"), end='', file=stderr)
-            exit(1)
-            
-        os.chdir("..")
-            
-        result = subprocess.run(["protoc", "-I./proto", "--python_out=./desktop/generated", 
-                                 "./proto/uart_messages.proto"], check=False, capture_output=True)
         if result.returncode:
             print(" [" + CRED + "Fail" + CEND + "]")
             print(result.stderr.decode("utf-8"), end='', file=stderr)
@@ -154,11 +147,11 @@ if __name__ == "__main__":
                                                  "code in your project.")
 
     parser.add_argument("-g", "--generate", action="store_true", 
-                        help="Do not run the Embedded Proto setup. Only generate the source based on *.proto files. "
+                        help="Do not run the Embedded Proto install. Only generate the source based on *.proto files. "
                              "Use this after changing uart_messages.proto.")
 
-    EPSetup.add_parser_arguments(parser)
-    EPSetup.display_feedback()
+    EPInstall.add_parser_arguments(parser)
+    EPInstall.display_feedback()
     args = parser.parse_args()
 
     # ---------------------------------------
@@ -195,8 +188,8 @@ if __name__ == "__main__":
     if not args.generate:
         os.chdir("./EmbeddedProto")
         
-        # Run the setup script of Embedded Proto it self.
-        EPSetup.run(args)
+        # Run the install script of Embedded Proto it self.
+        EPInstall.run(args)
         
         os.chdir("..")   
         

@@ -2,7 +2,7 @@
 ![alt text](https://embeddedproto.com/wp-content/uploads/2022/04/Embedded_Proto.png "Embedded Proto Logo")
 
 
-Copyrights 2020-2024 Embedded AMS B.V. Hoorn, [www.EmbeddedAMS.nl](https://www.EmbeddedAMS.nl), [info@EmbeddedAMS.nl](mailto:info@EmbeddedAMS.nl)
+Copyrights 2020-2026 Embedded AMS B.V. Hoorn, [www.EmbeddedAMS.nl](https://www.EmbeddedAMS.nl), [info@EmbeddedAMS.nl](mailto:info@EmbeddedAMS.nl)
 
 
 Looking for a more elaborate description of this example? Please visit: https://embeddedproto.com/a-simple-uart-example-with-embedded-proto/
@@ -25,12 +25,14 @@ The desktop program is a simple terminal python script. You can use the keys as 
 
 # Installation
 
-1. Install STM32CubeIDE if you have not already.
-2. Install the dependencies required by Embedded Proto. They are listed [here](https://github.com/Embedded-AMS/EmbeddedProto).
+1. Install STM32CubeIDE if you have not already. The project was last built with version 2.1.1.
+2. Install Python 3.11 or newer, the only dependency of Embedded Proto. See the [installation instructions](https://embeddedproto.com/documentation/installation/).
 3. Checkout this example repository including the submodule of Embedded Proto: `git clone --recursive https://github.com/Embedded-AMS/EmbeddedProto_Example_STM32_UART.git`.
-4. Setup the environment required for Embedded Proto and the desktop script by running the setup script: `python setup.py`.
+4. Setup the environment required for Embedded Proto and the desktop script by running the setup script: `python setup.py`. Add `--installer uv` when you have [uv](https://docs.astral.sh/uv/) installed, it is a lot faster.
 
-The setup script already does it for you but you can regenerate the source code using the `python setup.py --generate` parameter. This is required when you have changed the \*.proto file.
+The setup script runs the install script of Embedded Proto, which creates a virtual environment in the submodule folder, and generates the source code for both the microcontroller and the desktop script with the `embeddedproto` command. You can regenerate the source code using the `python setup.py --generate` parameter. This is required when you have changed the \*.proto file.
+
+The Embedded Proto library is header only and requires C++17. The project has the C++ language standard set to GNU++17 in both build configurations.
 
 
 # Running the code
